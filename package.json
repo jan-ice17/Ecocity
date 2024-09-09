@@ -5,7 +5,9 @@
   },
   "name": "Ecocity",
   "scripts": {
-    "build": "npm run build --workspaces --if-present",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
     "prebuild": "npm run prebuild --workspaces --if-present",
     "pretest": "npm run prebuild --workspaces --if-present",
     "start": "npm start --workspaces --if-present",
