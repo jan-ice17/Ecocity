@@ -1,31 +1,58 @@
 import { useState } from 'react';
 import { Ecocity_backend } from 'declarations/Ecocity_backend';
+import { useState } from "react"; 
+import styles from "./style";
+import { Billing, Business, CardDeal, Clients, CTA, Footer, Navbar, Stats, Testimonials, Hero } from "./components";
+import Proposals from "./components/Proposals"; 
+import Voting from "./components/Voting";
+import Tokens from "./components/Tokens";
+import Signup from "./components/Signup";
 
-function App() {
-  const [greeting, setGreeting] = useState('');
+const App = () => {
+  const [activePage, setActivePage] = useState("home"); // Track current active page
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    const name = event.target.elements.name.value;
-    Ecocity_backend.greet(name).then((greeting) => {
-      setGreeting(greeting);
-    });
-    return false;
-  }
+  const renderContent = () => {
+    switch (activePage) {
+      case "proposals":
+        return <Proposals />;
+      case "voting":
+        return <Voting />;
+      case "tokens":
+        return <Tokens />;
+      case "signup":
+        return <Signup />;
+      default:
+        return (
+          <>
+            <Hero />
+            <Stats />
+            <Business />
+            <Billing />
+            <CardDeal />
+            <Testimonials />
+            <Clients />
+            <CTA />
+            <Footer />
+          </>
+        );
+    }
+  };
 
   return (
-    <main>
-      <img src="/logo2.svg" alt="DFINITY logo" />
-      <br />
-      <br />
-      <form action="#" onSubmit={handleSubmit}>
-        <label htmlFor="name">Enter your name: &nbsp;</label>
-        <input id="name" alt="Name" type="text" />
-        <button type="submit">Click Me!</button>
-      </form>
-      <section id="greeting">{greeting}</section>
-    </main>
+    <div className="bg-primary w-full overflow-hidden">
+      <div className={`${styles.paddingX} ${styles.flexCenter}`}>
+        <div className={`${styles.boxWidth}`}>
+          <Navbar setActivePage={setActivePage} /> {/* Pass setActivePage to Navbar */}
+        </div>
+      </div>
+
+      <div className={`bg-primary ${styles.flexStart}`}>
+        <div className={`${styles.boxWidth}`}>
+          {renderContent()} {/* Render content based on active page */}
+        </div>
+      </div>
+    </div>
   );
-}
+};
 
 export default App;
