@@ -25,6 +25,9 @@ export default defineConfig({
       },
     },
   },
+  css: {
+    postcss: './postcss.config.cjs',  // Added this line to include PostCSS config
+  },
   plugins: [
     react(),
     environment("all", { prefix: "CANISTER_" }),

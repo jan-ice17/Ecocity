@@ -4,7 +4,7 @@ export const navLinks = [
   { id: "home", title: "Home" },
   { id: "proposals", title: "Proposals" },
   { id: "voting", title: "Voting" },
-  { id: "tokens", title: "Tokens" },
+  { id: "dashboard", title: "Dashboard" },
   { id: "signup", title: "Signup" },
 ];
 

@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { Ecocity_backend } from 'declarations/Ecocity_backend';
-import { useState } from "react"; 
 import styles from "./style";
 import { Billing, Business, CardDeal, Clients, CTA, Footer, Navbar, Stats, Testimonials, Hero } from "./components";
 import Proposals from "./components/Proposals"; 
 import Voting from "./components/Voting";
-import Tokens from "./components/Tokens";
 import Signup from "./components/Signup";
+import Dashboard from './components/Dashboard';
 
 const App = () => {
   const [activePage, setActivePage] = useState("home"); // Track current active page
@@ -17,8 +16,8 @@ const App = () => {
         return <Proposals />;
       case "voting":
         return <Voting />;
-      case "tokens":
-        return <Tokens />;
+      case "Dashboard":
+        return <Dashboard />;
       case "signup":
         return <Signup />;
       default:
