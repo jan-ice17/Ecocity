@@ -153,5 +153,22 @@ actor EcoCity {
             };
         };
     };
-       
+
+     public shared(msg) func closeProposal(proposalId : ProposalId) : async () {
+        if (msg.caller != owner) {
+            throw Error.reject("Only the owner can close proposals");
+        };
+        switch (proposals.get(proposalId)) {
+            case (?state) {
+                if (state.open) {
+                    let updatedState : ProposalState = {
+                        proposal = state.proposal;
+                        votes = state.votes;
+                        open = false;
+                    };
+                    proposals.put(proposalId, updatedState);
+                } else {
+                    throw Error.reject("The proposal is already closed");
+                };
+            };      
 };
