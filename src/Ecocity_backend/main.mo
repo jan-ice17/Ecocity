@@ -176,5 +176,21 @@ actor EcoCity {
             }; 
           }; 
       }; 
-
+    public query func getProposalResults(proposalId : ProposalId) : async ?ProposalResult {
+        switch (proposals.get(proposalId)) {
+            case (?state) {
+                if (not state.open) {
+                    var counts = [var 0, 0];
+                    for (vote in state.votes.vals()) {
+                        counts[vote.option] += 1;
+                    };
+                    let total = counts[0] + counts[1];
+                    ?{ counts = Array.freeze(counts); total = total }
+                } else {
+                    throw Error.reject("The proposal is still open for voting");
+                };
+            };
+            case (null) {
+                throw Error.reject("Proposal not found");
+            };
 };
