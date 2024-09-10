@@ -195,5 +195,14 @@ actor EcoCity {
             };
           };
     };
+     public query func getAllProposals() : async [(ProposalId, ProposalState)] {
+        Iter.toArray(proposals.entries())
+    };
 
-};
+    public query func getUserProposals(userId : UserId) : async [ProposalId] {
+        switch (users.get(userId)) {
+            case (null) { [] };
+            case (?user) { List.toArray(user.proposals) };
+        }
+    };
+}
