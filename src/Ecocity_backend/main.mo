@@ -103,5 +103,55 @@ actor EcoCity {
         };
 
      proposalId
-    };       
+    };    
+
+        public query func getProposal(proposalId : ProposalId) : async ?ProposalState {
+        proposals.get(proposalId)
+    };
+
+    public shared(msg) func vote(proposalId : ProposalId, option : Nat) : async () {
+        let voter = msg.caller;
+        switch (proposals.get(proposalId)) {
+            case (?state) {
+                if (state.open) {
+                    if (option < 2) {
+                        let hasVoted = Option.isSome(Array.find<Vote>(state.votes, func (v: Vote) : Bool { v.voter == voter }));
+                        if (not hasVoted) {
+                            let newVote : Vote = { option = option; voter = voter };
+                            let updatedVotes = Array.append<Vote>(state.votes, [newVote]);
+                            let updatedState : ProposalState = {
+                                proposal = state.proposal;
+                                votes = updatedVotes;
+                                open = state.open;
+                            };
+                            proposals.put(proposalId, updatedState);
+
+                            switch (users.get(voter)) {
+                                case (?user) {
+                                    let updatedUser = {
+                                        name = user.name;
+                                        proposals = user.proposals;
+                                        votedProposals = List.push(proposalId, user.votedProposals);
+                                        tokens = user.tokens + 1;
+                                    };
+                                    users.put(voter, updatedUser);
+                                };
+                                case (null) { /* Handle error */ };
+                            };
+                        } else {
+                            throw Error.reject("You have already voted on this proposal");
+                        };
+                    } else {
+                        throw Error.reject("Invalid option");
+                    };
+                } else {
+                    throw Error.reject("This proposal is closed for voting");
+                };
+            };
+            case (null) {
+                throw Error.reject("Proposal not found");
+            };
+        };
+    };
+       
 };
