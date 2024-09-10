@@ -102,5 +102,6 @@ actor EcoCity {
             };
         };
 
-        
+     proposalId
+    };       
 };
