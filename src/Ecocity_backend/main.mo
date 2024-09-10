@@ -193,4 +193,7 @@ actor EcoCity {
             case (null) {
                 throw Error.reject("Proposal not found");
             };
+          };
+    };
+
 };
