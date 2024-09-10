@@ -89,89 +89,37 @@ export const footerLinks = [
   {
     title: "Useful Links",
     links: [
-      {
-        name: "Content",
-        link: "https://www.hoobank.com/content/",
-      },
-      {
-        name: "How it Works",
-        link: "https://www.hoobank.com/how-it-works/",
-      },
-      {
-        name: "Create",
-        link: "https://www.hoobank.com/create/",
-      },
-      {
-        name: "Explore",
-        link: "https://www.hoobank.com/explore/",
-      },
-      {
-        name: "Terms & Services",
-        link: "https://www.hoobank.com/terms-and-services/",
-      },
+      { name: "Content", link: "https://www.ecocity.com/content/" },
+      { name: "How it Works", link: "https://www.ecocity.com/how-it-works/" },
+      { name: "Create", link: "https://www.ecocity.com/create/" },
+      { name: "Explore", link: "https://www.ecocity.com/explore/" },
+      { name: "Terms & Services", link: "https://www.ecocity.com/terms-and-services/" },
     ],
   },
   {
     title: "Community",
     links: [
-      {
-        name: "Help Center",
-        link: "https://www.hoobank.com/help-center/",
-      },
-      {
-        name: "Partners",
-        link: "https://www.hoobank.com/partners/",
-      },
-      {
-        name: "Suggestions",
-        link: "https://www.hoobank.com/suggestions/",
-      },
-      {
-        name: "Blog",
-        link: "https://www.hoobank.com/blog/",
-      },
-      {
-        name: "Newsletters",
-        link: "https://www.hoobank.com/newsletters/",
-      },
+      { name: "Help Center", link: "https://www.ecocity.com/help-center/" },
+      { name: "Partners", link: "https://www.ecocity.com/partners/" },
+      { name: "Suggestions", link: "https://www.ecocity.com/suggestions/" },
+      { name: "Blog", link: "https://www.ecocity.com/blog/" },
+      { name: "Newsletters", link: "https://www.ecocity.com/newsletters/" },
     ],
   },
   {
     title: "Partner",
     links: [
-      {
-        name: "Our Partner",
-        link: "https://www.hoobank.com/our-partner/",
-      },
-      {
-        name: "Become a Partner",
-        link: "https://www.hoobank.com/become-a-partner/",
-      },
+      { name: "Our Partner", link: "https://www.ecocity.com/our-partner/" },
+      { name: "Become a Partner", link: "https://www.ecocity.com/become-a-partner/" },
     ],
   },
 ];
 
 export const socialMedia = [
-  {
-    id: "social-media-1",
-    icon: instagram,
-    link: "https://www.instagram.com/",
-  },
-  {
-    id: "social-media-2",
-    icon: facebook,
-    link: "https://www.facebook.com/",
-  },
-  {
-    id: "social-media-3",
-    icon: twitter,
-    link: "https://www.twitter.com/",
-  },
-  {
-    id: "social-media-4",
-    icon: linkedin,
-    link: "https://www.linkedin.com/",
-  },
+  { id: "social-media-1", icon: instagram, link: "https://www.instagram.com/" },
+  { id: "social-media-2", icon: facebook, link: "https://www.facebook.com/" },
+  { id: "social-media-3", icon: twitter, link: "https://www.twitter.com/" },
+  { id: "social-media-4", icon: linkedin, link: "https://www.linkedin.com/" },
 ];
 
 export const clients = [
@@ -190,5 +138,41 @@ export const clients = [
   {
     id: "client-4",
     logo: dropbox,
+  },
+];
+
+export const pricingTiers = [
+  {
+    id: "tier-1",
+    name: "Basic",
+    price: "Free",
+    features: [
+      "Submit up to 5 proposals per month",
+      "Vote on community projects",
+      "Access to basic analytics",
+    ],
+  },
+  {
+    id: "tier-2",
+    name: "Pro",
+    price: "$9.99/month",
+    features: [
+      "Submit unlimited proposals",
+      "Priority voting on projects",
+      "Advanced analytics and reporting",
+      "Collaborate with other users",
+    ],
+  },
+  {
+    id: "tier-3",
+    name: "Premium",
+    price: "$29.99/month",
+    features: [
+      "All Pro features",
+      "AI-powered proposal improvement suggestions",
+      "Unlimited product listings for sustainable solutions",
+      "Direct access to urban planning experts",
+      "Custom dashboard and data visualization",
+    ],
   },
 ];
