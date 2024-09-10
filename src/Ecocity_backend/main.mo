@@ -20,5 +20,32 @@ actor EcoCity {
         votedProposals: List.List<ProposalId>;
         tokens: Nat;
     };
+ type Proposal = {
+        id: ProposalId;
+        title: Text;
+        description: Text;
+        author: UserId;
+        createdAt: Time.Time;
+    };
 
+    type Vote = {
+        option: Nat;
+        voter: Principal;
+    };
+
+    type ProposalState = {
+        proposal: Proposal;
+        votes: [Vote];
+        open: Bool;
+    };
+
+    type ProposalResult = {
+        counts: [Nat];
+        total: Nat;
+    };
+
+    private func natHash(n: Nat): Hash.Hash {
+        Text.hash(Nat.toText(n))
+    };
+    
 };
