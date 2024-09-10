@@ -8,7 +8,7 @@ import Signup from "./components/Signup";
 import Dashboard from './components/Dashboard';
 
 const App = () => {
-  const [activePage, setActivePage] = useState("home"); // Track current active page
+  const [activePage, setActivePage] = useState("home");
 
   const renderContent = () => {
     switch (activePage) {
@@ -16,7 +16,7 @@ const App = () => {
         return <Proposals />;
       case "voting":
         return <Voting />;
-      case "Dashboard":
+      case "dashboard":
         return <Dashboard />;
       case "signup":
         return <Signup />;

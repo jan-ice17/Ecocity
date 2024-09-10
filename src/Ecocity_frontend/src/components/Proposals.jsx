@@ -1,235 +1,230 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import bannerImage from "../assets/ecocity_banner.png";
 
-const Proposal = () => {
-  const [image, setImage] = useState(null);
-  const [selectedCountry, setSelectedCountry] = useState("");
+const Proposals = () => {
+  const [proposals, setProposals] = useState([]);
+  const [newProposal, setNewProposal] = useState({
+    title: "",
+    details: "",
+    category: "",
+    country: "",
+    location: "",
+  });
+  const [showPopup, setShowPopup] = useState(false);
+  const [submittedProposal, setSubmittedProposal] = useState(null);
 
   const africanCountries = [
-    "Algeria",
-    "Angola",
-    "Benin",
-    "Botswana",
-    "Burkina Faso",
-    "Burundi",
-    "Cabo Verde",
-    "Cameroon",
-    "Central African Republic",
-    "Chad",
-    "Comoros",
-    "Congo (Congo-Brazzaville)",
-    "Djibouti",
-    "Egypt",
-    "Equatorial Guinea",
-    "Eritrea",
-    "Eswatini",
-    "Ethiopia",
-    "Gabon",
-    "Gambia",
-    "Ghana",
-    "Guinea",
-    "Guinea-Bissau",
-    "Ivory Coast",
-    "Kenya",
-    "Lesotho",
-    "Liberia",
-    "Libya",
-    "Madagascar",
-    "Malawi",
-    "Mali",
-    "Mauritania",
-    "Mauritius",
-    "Morocco",
-    "Mozambique",
-    "Namibia",
-    "Niger",
-    "Nigeria",
-    "Rwanda",
-    "Sao Tome and Principe",
-    "Senegal",
-    "Seychelles",
-    "Sierra Leone",
-    "Somalia",
-    "South Africa",
-    "South Sudan",
-    "Sudan",
-    "Tanzania",
-    "Togo",
-    "Tunisia",
-    "Uganda",
-    "Zambia",
-    "Zimbabwe",
+    "Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cameroon",
+    "Cape Verde", "Central African Republic", "Chad", "Comoros", "Congo", "Democratic Republic of Congo",
+    "Djibouti", "Egypt", "Equatorial Guinea", "Eritrea", "Ethiopia", "Gabon", "Gambia", "Ghana",
+    "Guinea", "Guinea-Bissau", "Ivory Coast", "Kenya", "Lesotho", "Liberia", "Libya", "Madagascar",
+    "Malawi", "Mali", "Mauritania", "Mauritius", "Morocco", "Mozambique", "Namibia", "Niger",
+    "Nigeria", "Rwanda", "Sao Tome and Principe", "Senegal", "Seychelles", "Sierra Leone",
+    "Somalia", "South Africa", "South Sudan", "Sudan", "Swaziland", "Tanzania", "Togo",
+    "Tunisia", "Uganda", "Zambia", "Zimbabwe"
   ];
 
   useEffect(() => {
-    // Add Google Font for Space Grotesk
     const link = document.createElement("link");
     link.href =
-      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300&display=swap";
+      "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
+
+    // Add chatbot configuration script
+    const scriptConfig = document.createElement("script");
+    scriptConfig.innerHTML = `
+      window.embeddedChatbotConfig = {
+      chatbotId: "kxpQDUENXQezTwswVKJtp",
+      domain: "www.chatbase.co"
+      }
+    `;
+    document.body.appendChild(scriptConfig);
+
+    // Add chatbot embed script
+    const scriptEmbed = document.createElement("script");
+    scriptEmbed.src = "https://www.chatbase.co/embed.min.js";
+    scriptEmbed.chatbotId = "kxpQDUENXQezTwswVKJtp";
+    scriptEmbed.domain = "www.chatbase.co";
+    scriptEmbed.defer = true;
+    document.body.appendChild(scriptEmbed);
+
+    // Cleanup function to remove scripts when component unmounts
+    return () => {
+      document.body.removeChild(scriptConfig);
+      document.body.removeChild(scriptEmbed);
+    };
   }, []);
 
-  const formStyle = {
-    fontFamily: "Space Grotesk, sans-serif",
-    fontWeight: "300",
-    color: "white",
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setNewProposal({ ...newProposal, [name]: value });
   };
 
-  const inputStyle = {
-    width: "100%",
-    padding: "12px",
-    borderRadius: "20px 20px 0 20px",
-    border: "1px solid #333",
-    backgroundColor: "#0c0f19",
-    color: "white",
-    outline: "none",
-    transition: "border-color 0.2s ease",
-  };
-
-  const inputFocusStyle = {
-    border: "1px solid #50a7f7",
-  };
-
-  const containerStyle = {
-    backgroundColor: "#0c0f19",
-    padding: "40px",
-    borderRadius: "10px",
-    maxWidth: "1100px",
-    margin: "auto",
-    marginTop: "50px",
-    border: "1px solid #2374f0",
-    boxShadow: "0 0 20px #2374f0",
-    marginBottom: "50px",
-  };
-
-  const buttonStyle = {
-    padding: "10px 30px",
-    background: "linear-gradient(90deg, #2374f0, #50a7f7)",
-    color: "white",
-    border: "none",
-    borderRadius: "20px 20px 0 20px",
-    fontSize: "16px",
-    cursor: "pointer",
-    transition: "background-color 0.2s ease",
-    display: "inline-block",
-  };
-
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImage(URL.createObjectURL(file));
-    }
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const submissionDate = new Date();
+    const newSubmittedProposal = {
+      ...newProposal,
+      id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
+      date: submissionDate.toLocaleDateString(),
+      time: submissionDate.toLocaleTimeString(),
+    };
+    setProposals([...proposals, newSubmittedProposal]);
+    setSubmittedProposal(newSubmittedProposal);
+    setShowPopup(true);
+    setNewProposal({ title: "", details: "", category: "", country: "", location: "" });
   };
 
   return (
-    <div style={containerStyle}>
-      <h1 style={{ ...formStyle, fontSize: "32px", textAlign: "center" }}>
-        Submit Your Proposal
-      </h1>
-
-      <form style={{ marginTop: "20px" }}>
-        {/* Country Dropdown */}
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ ...formStyle, marginBottom: "5px", display: "block" }}>
-            Country
-          </label>
-          <select
-            style={inputStyle}
-            value={selectedCountry}
-            onChange={(e) => setSelectedCountry(e.target.value)}
-            onFocus={(e) => (e.target.style.border = inputFocusStyle.border)}
-            onBlur={(e) => (e.target.style.border = inputStyle.border)}
-          >
-            <option value="">Select a country</option>
-            {africanCountries.map((country, index) => (
-              <option key={index} value={country}>
-                {country}
-              </option>
-            ))}
-          </select>
+    <div className="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen font-['Space_Grotesk']">
+      <div className="relative w-full h-64 mb-8">
+        <img src={bannerImage} alt="Ecocity Proposals Banner" className="w-full h-full object-cover" />
+        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <h1 className="text-white text-5xl font-bold">Ecocity Proposals</h1>
         </div>
-
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ ...formStyle, marginBottom: "5px", display: "block" }}>
-            Location
-          </label>
-          <input
-            type="text"
-            placeholder="Enter your location"
-            style={inputStyle}
-            onFocus={(e) => (e.target.style.border = inputFocusStyle.border)}
-            onBlur={(e) => (e.target.style.border = inputStyle.border)}
-          />
-        </div>
-
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ ...formStyle, marginBottom: "5px", display: "block" }}>
-            Proposal Title
-          </label>
-          <input
-            type="text"
-            placeholder="Enter your proposal title"
-            style={inputStyle}
-            onFocus={(e) => (e.target.style.border = inputFocusStyle.border)}
-            onBlur={(e) => (e.target.style.border = inputStyle.border)}
-          />
-        </div>
-
-        <div style={{ marginBottom: "15px" }}>
-          <label style={{ ...formStyle, marginBottom: "5px", display: "block" }}>
-            Proposal Details
-          </label>
-          <textarea
-            placeholder="Describe your proposal"
-            style={{
-              ...inputStyle,
-              height: "100px",
-            }}
-            onFocus={(e) => (e.target.style.border = inputFocusStyle.border)}
-            onBlur={(e) => (e.target.style.border = inputStyle.border)}
-          ></textarea>
-        </div>
-
-        {/* Upload Image Section */}
-        <div style={{ marginBottom: "20px" }}>
-          <label style={{ ...formStyle, marginBottom: "5px", display: "block" }}>
-            Upload Your Image
-          </label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageChange}
-            style={{ display: "none" }}
-            id="upload-image"
-          />
-          <label
-            htmlFor="upload-image"
-            style={{
-              ...inputStyle,
-              height: "150px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              cursor: "pointer",
-            }}
-          >
-            {image ? <img src={image} alt="Image Preview" style={{ maxHeight: "100%" }} /> : "Upload Image"}
-          </label>
-        </div>
-
-        <div style={{ display: "flex", justifyContent: "flex-end", marginTop: "20px" }}>
-          <button
-            type="submit"
-            style={buttonStyle}
-            onMouseEnter={(e) => (e.target.style.background = "#50a7f7")}
-            onMouseLeave={(e) => (e.target.style.background = "linear-gradient(90deg, #2374f0, #50a7f7)")}
-          >
+      </div>
+      
+      <div className="container mx-auto py-12 px-4 lg:px-0">
+        <form onSubmit={handleSubmit} className="bg-gray-800 rounded-lg p-6 mb-8 shadow-lg">
+          <h2 className="text-white text-2xl font-semibold mb-4">Submit a New Proposal</h2>
+          <div className="mb-4">
+            <label htmlFor="title" className="block text-white mb-2">Title</label>
+            <input
+              type="text"
+              id="title"
+              name="title"
+              value={newProposal.title}
+              onChange={handleInputChange}
+              required
+              className="w-full bg-gray-700 text-white rounded px-3 py-2"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="category" className="block text-white mb-2">Category</label>
+            <select
+              id="category"
+              name="category"
+              value={newProposal.category}
+              onChange={handleInputChange}
+              required
+              className="w-full bg-gray-700 text-white rounded px-3 py-2"
+            >
+              <option value="">Select a category</option>
+              <option value="environment">Environment</option>
+              <option value="infrastructure">Infrastructure</option>
+              <option value="community">Community</option>
+              <option value="education">Education</option>
+              <option value="health">Health</option>
+            </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="country" className="block text-white mb-2">Country</label>
+            <select
+              id="country"
+              name="country"
+              value={newProposal.country}
+              onChange={handleInputChange}
+              required
+              className="w-full bg-gray-700 text-white rounded px-3 py-2"
+            >
+              <option value="">Select a country</option>
+              {africanCountries.map((country) => (
+                <option key={country} value={country}>{country}</option>
+              ))}
+            </select>
+          </div>
+          <div className="mb-4">
+            <label htmlFor="location" className="block text-white mb-2">Location/Residency</label>
+            <input
+              type="text"
+              id="location"
+              name="location"
+              value={newProposal.location}
+              onChange={handleInputChange}
+              required
+              className="w-full bg-gray-700 text-white rounded px-3 py-2"
+              placeholder="e.g., City, State/Province"
+            />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="details" className="block text-white mb-2">Details</label>
+            <textarea
+              id="details"
+              name="details"
+              value={newProposal.details}
+              onChange={handleInputChange}
+              required
+              className="w-full bg-gray-700 text-white rounded px-3 py-2 h-32"
+            ></textarea>
+          </div>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300">
             Submit Proposal
           </button>
+        </form>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {proposals.map((proposal) => (
+            <div
+              key={proposal.id}
+              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
+            >
+              <div className="p-6">
+                <h2 className="text-white text-xl font-semibold mb-2">{proposal.title}</h2>
+                <p className="text-blue-400 text-sm mb-2">{proposal.category}</p>
+                <p className="text-gray-400 text-sm mb-2">{proposal.country}, {proposal.location}</p>
+                <p className="text-gray-400 text-sm mb-4">{proposal.details}</p>
+                <p className="text-gray-500 text-xs">Submitted on {proposal.date} at {proposal.time}</p>
+              </div>
+            </div>
+          ))}
         </div>
-      </form>
+      </div>
+
+      {showPopup && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full">
+            <h2 className="text-white text-2xl font-semibold mb-4">Proposal Submitted</h2>
+            <p className="text-green-400 mb-4">Your proposal has been successfully submitted!</p>
+            <div className="mb-4">
+              <h3 className="text-white font-semibold">Title:</h3>
+              <p className="text-gray-300">{submittedProposal.title}</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="text-white font-semibold">Category:</h3>
+              <p className="text-gray-300">{submittedProposal.category}</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="text-white font-semibold">Country:</h3>
+              <p className="text-gray-300">{submittedProposal.country}</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="text-white font-semibold">Location:</h3>
+              <p className="text-gray-300">{submittedProposal.location}</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="text-white font-semibold">Details:</h3>
+              <p className="text-gray-300">{submittedProposal.details}</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="text-white font-semibold">Submission Date:</h3>
+              <p className="text-gray-300">{submittedProposal.date} at {submittedProposal.time}</p>
+            </div>
+            <div className="mb-4">
+              <h3 className="text-white font-semibold">Proposal ID:</h3>
+              <p className="text-gray-300">{submittedProposal.id}</p>
+            </div>
+            <button
+              onClick={() => setShowPopup(false)}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-export default Proposal;
+export default Proposals;

@@ -8,7 +8,6 @@ export const navLinks = [
   { id: "signup", title: "Signup" },
 ];
 
-
 export const features = [
   {
     id: "feature-1",
@@ -33,30 +32,37 @@ export const features = [
   },
 ];
 
-
 export const feedback = [
   {
     id: "feedback-1",
     content:
-      "Money is only a tool. It will take you wherever you wish, but it will not replace you as the driver.",
-    name: "Herman Jensen",
-    title: "Founder & Leader",
+      "Ecocity is revolutionizing urban planning. Our platform empowers communities to shape their environment sustainably.",
+    name: "Janice M.",
+    title: "Co-founder & Sustainability Expert",
     img: people01,
   },
   {
     id: "feedback-2",
     content:
-      "Money makes your life easier. If you're lucky to have it, you're lucky.",
-    name: "Steve Mark",
-    title: "Founder & Leader",
+      "We're bridging the gap between citizens and city planners. Ecocity makes urban development truly collaborative.",
+    name: "Prisha Patel",
+    title: "Chief Technology Officer",
     img: people02,
   },
   {
     id: "feedback-3",
     content:
-      "It is usually people in the money business, finance, and international trade that are really rich.",
-    name: "Kenn Gallagher",
-    title: "Founder & Leader",
+      "With Ecocity, we're not just building smart cities, we're nurturing resilient communities for generations to come.",
+    name: "Rebecca N.",
+    title: "Head of Community Engagement",
+    img: people03,
+  },
+  {
+    id: "feedback-4",
+    content:
+      "Ecocity is more than a platform; it's a movement towards sustainable, inclusive, and innovative urban living.",
+    name: "Judith K.",
+    title: "Environmental Policy Advisor",
     img: people03,
   },
 ];
@@ -78,7 +84,6 @@ export const stats = [
     value: "80%+",
   },
 ];
-
 
 export const footerLinks = [
   {
@@ -187,4 +192,3 @@ export const clients = [
     logo: dropbox,
   },
 ];
-
