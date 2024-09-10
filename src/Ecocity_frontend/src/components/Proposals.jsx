@@ -13,6 +13,19 @@ const Proposals = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [submittedProposal, setSubmittedProposal] = useState(null);
 
+  const categories = [
+    "Renewable Energy",
+    "Waste Management",
+    "Green Transportation",
+    "Urban Farming",
+    "Water Conservation",
+    "Biodiversity Protection",
+    "Sustainable Buildings",
+    "Climate Change Adaptation",
+    "Circular Economy",
+    "Environmental Education",
+  ];
+
   const africanCountries = [
     "Algeria", "Angola", "Benin", "Botswana", "Burkina Faso", "Burundi", "Cameroon",
     "Cape Verde", "Central African Republic", "Chad", "Comoros", "Congo", "Democratic Republic of Congo",
@@ -111,11 +124,9 @@ const Proposals = () => {
               className="w-full bg-gray-700 text-white rounded px-3 py-2"
             >
               <option value="">Select a category</option>
-              <option value="environment">Environment</option>
-              <option value="infrastructure">Infrastructure</option>
-              <option value="community">Community</option>
-              <option value="education">Education</option>
-              <option value="health">Health</option>
+              {categories.map((category) => (
+                <option key={category} value={category}>{category}</option>
+              ))}
             </select>
           </div>
           <div className="mb-4">
