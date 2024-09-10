@@ -170,5 +170,8 @@ actor EcoCity {
                 } else {
                     throw Error.reject("The proposal is already closed");
                 };
-            };      
+            }; 
+             case (null) {
+                throw Error.reject("Proposal not found");
+            };                
 };
