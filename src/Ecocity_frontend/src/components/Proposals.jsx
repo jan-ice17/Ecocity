@@ -7,8 +7,11 @@ const Proposals = () => {
     title: "",
     details: "",
     category: "",
+    customCategory: "",
     country: "",
+    customCountry: "",
     location: "",
+    image: null,
   });
   const [showPopup, setShowPopup] = useState(false);
   const [submittedProposal, setSubmittedProposal] = useState(null);
@@ -24,6 +27,7 @@ const Proposals = () => {
     "Climate Change Adaptation",
     "Circular Economy",
     "Environmental Education",
+    "Other",
   ];
 
   const africanCountries = [
@@ -34,7 +38,7 @@ const Proposals = () => {
     "Malawi", "Mali", "Mauritania", "Mauritius", "Morocco", "Mozambique", "Namibia", "Niger",
     "Nigeria", "Rwanda", "Sao Tome and Principe", "Senegal", "Seychelles", "Sierra Leone",
     "Somalia", "South Africa", "South Sudan", "Sudan", "Swaziland", "Tanzania", "Togo",
-    "Tunisia", "Uganda", "Zambia", "Zimbabwe"
+    "Tunisia", "Uganda", "Zambia", "Zimbabwe", "Other",
   ];
 
   useEffect(() => {
@@ -43,35 +47,16 @@ const Proposals = () => {
       "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap";
     link.rel = "stylesheet";
     document.head.appendChild(link);
-
-    // Add chatbot configuration script
-    const scriptConfig = document.createElement("script");
-    scriptConfig.innerHTML = `
-      window.embeddedChatbotConfig = {
-      chatbotId: "kxpQDUENXQezTwswVKJtp",
-      domain: "www.chatbase.co"
-      }
-    `;
-    document.body.appendChild(scriptConfig);
-
-    // Add chatbot embed script
-    const scriptEmbed = document.createElement("script");
-    scriptEmbed.src = "https://www.chatbase.co/embed.min.js";
-    scriptEmbed.chatbotId = "kxpQDUENXQezTwswVKJtp";
-    scriptEmbed.domain = "www.chatbase.co";
-    scriptEmbed.defer = true;
-    document.body.appendChild(scriptEmbed);
-
-    // Cleanup function to remove scripts when component unmounts
-    return () => {
-      document.body.removeChild(scriptConfig);
-      document.body.removeChild(scriptEmbed);
-    };
   }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setNewProposal({ ...newProposal, [name]: value });
+  };
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    setNewProposal({ ...newProposal, image: file });
   };
 
   const handleSubmit = (e) => {
@@ -82,11 +67,23 @@ const Proposals = () => {
       id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
       date: submissionDate.toLocaleDateString(),
       time: submissionDate.toLocaleTimeString(),
+      imageUrl: newProposal.image ? URL.createObjectURL(newProposal.image) : null,
+      category: newProposal.category === "Other" ? newProposal.customCategory : newProposal.category,
+      country: newProposal.country === "Other" ? newProposal.customCountry : newProposal.country,
     };
     setProposals([...proposals, newSubmittedProposal]);
     setSubmittedProposal(newSubmittedProposal);
     setShowPopup(true);
-    setNewProposal({ title: "", details: "", category: "", country: "", location: "" });
+    setNewProposal({
+      title: "",
+      details: "",
+      category: "",
+      customCategory: "",
+      country: "",
+      customCountry: "",
+      location: "",
+      image: null,
+    });
   };
 
   return (
@@ -128,6 +125,17 @@ const Proposals = () => {
                 <option key={category} value={category}>{category}</option>
               ))}
             </select>
+            {newProposal.category === "Other" && (
+              <input
+                type="text"
+                name="customCategory"
+                value={newProposal.customCategory}
+                onChange={handleInputChange}
+                placeholder="Enter custom category"
+                className="w-full bg-gray-700 text-white rounded px-3 py-2 mt-2"
+                required
+              />
+            )}
           </div>
           <div className="mb-4">
             <label htmlFor="country" className="block text-white mb-2">Country</label>
@@ -144,6 +152,17 @@ const Proposals = () => {
                 <option key={country} value={country}>{country}</option>
               ))}
             </select>
+            {newProposal.country === "Other" && (
+              <input
+                type="text"
+                name="customCountry"
+                value={newProposal.customCountry}
+                onChange={handleInputChange}
+                placeholder="Enter custom country"
+                className="w-full bg-gray-700 text-white rounded px-3 py-2 mt-2"
+                required
+              />
+            )}
           </div>
           <div className="mb-4">
             <label htmlFor="location" className="block text-white mb-2">Location/Residency</label>
@@ -169,6 +188,17 @@ const Proposals = () => {
               className="w-full bg-gray-700 text-white rounded px-3 py-2 h-32"
             ></textarea>
           </div>
+          <div className="mb-4">
+            <label htmlFor="image" className="block text-white mb-2">Upload Image</label>
+            <input
+              type="file"
+              id="image"
+              name="image"
+              accept="image/*"
+              onChange={handleImageUpload}
+              className="w-full bg-gray-700 text-white rounded px-3 py-2"
+            />
+          </div>
           <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300">
             Submit Proposal
           </button>
@@ -180,6 +210,9 @@ const Proposals = () => {
               key={proposal.id}
               className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
             >
+              {proposal.imageUrl && (
+                <img src={proposal.imageUrl} alt={proposal.title} className="w-full h-48 object-cover" />
+              )}
               <div className="p-6">
                 <h2 className="text-white text-xl font-semibold mb-2">{proposal.title}</h2>
                 <p className="text-blue-400 text-sm mb-2">{proposal.category}</p>
@@ -197,33 +230,11 @@ const Proposals = () => {
           <div className="bg-gray-800 rounded-lg p-8 max-w-md w-full">
             <h2 className="text-white text-2xl font-semibold mb-4">Proposal Submitted</h2>
             <p className="text-green-400 mb-4">Your proposal has been successfully submitted!</p>
-            <div className="mb-4">
-              <h3 className="text-white font-semibold">Title:</h3>
-              <p className="text-gray-300">{submittedProposal.title}</p>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-white font-semibold">Category:</h3>
-              <p className="text-gray-300">{submittedProposal.category}</p>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-white font-semibold">Country:</h3>
-              <p className="text-gray-300">{submittedProposal.country}</p>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-white font-semibold">Location:</h3>
-              <p className="text-gray-300">{submittedProposal.location}</p>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-white font-semibold">Details:</h3>
-              <p className="text-gray-300">{submittedProposal.details}</p>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-white font-semibold">Submission Date:</h3>
-              <p className="text-gray-300">{submittedProposal.date} at {submittedProposal.time}</p>
-            </div>
-            <div className="mb-4">
-              <h3 className="text-white font-semibold">Proposal ID:</h3>
-              <p className="text-gray-300">{submittedProposal.id}</p>
+            <div className="text-white mb-4">
+              <p><strong>Title:</strong> {submittedProposal.title}</p>
+              <p><strong>Category:</strong> {submittedProposal.category}</p>
+              <p><strong>Country:</strong> {submittedProposal.country}</p>
+              <p><strong>Location:</strong> {submittedProposal.location}</p>
             </div>
             <button
               onClick={() => setShowPopup(false)}
