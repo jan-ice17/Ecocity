@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Ecocity_backend } from 'declarations/Ecocity_backend';
 import styles from "./style";
 import { Billing, Business, CardDeal, Clients, CTA, Footer, Navbar, Stats, Testimonials, Hero } from "./components";
@@ -8,7 +8,20 @@ import Signup from "./components/Signup";
 import Dashboard from './components/Dashboard';
 
 const App = () => {
-  const [activePage, setActivePage] = useState("home");
+  const [activePage, setActivePage] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return hash || "home";
+  });
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.replace('#', '');
+      setActivePage(hash || "home");
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
 
   const renderContent = () => {
     switch (activePage) {
@@ -41,13 +54,13 @@ const App = () => {
     <div className="bg-primary w-full overflow-hidden">
       <div className={`${styles.paddingX} ${styles.flexCenter}`}>
         <div className={`${styles.boxWidth}`}>
-          <Navbar setActivePage={setActivePage} /> {/* Pass setActivePage to Navbar */}
+          <Navbar activePage={activePage} />
         </div>
       </div>
 
       <div className={`bg-primary ${styles.flexStart}`}>
         <div className={`${styles.boxWidth}`}>
-          {renderContent()} {/* Render content based on active page */}
+          {renderContent()}
         </div>
       </div>
     </div>

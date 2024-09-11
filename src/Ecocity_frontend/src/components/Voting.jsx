@@ -13,6 +13,7 @@ const Voting = () => {
         details: "Proposal to build a new community park in the downtown area.",
         votesFor: 0,
         votesAgainst: 0,
+        proposer: "GreenSpace Initiative",
       },
       {
         id: 2,
@@ -20,6 +21,7 @@ const Voting = () => {
         details: "Proposal to enhance the city's public transportation system.",
         votesFor: 0,
         votesAgainst: 0,
+        proposer: "EcoMobility Group",
       },
       {
         id: 3,
@@ -27,6 +29,7 @@ const Voting = () => {
         details: "Proposal to increase the number of green spaces in the city.",
         votesFor: 0,
         votesAgainst: 0,
+        proposer: "Urban Oasis Project",
       },
       {
         id: 4,
@@ -34,6 +37,7 @@ const Voting = () => {
         details: "Proposal to install solar panels in public areas.",
         votesFor: 0,
         votesAgainst: 0,
+        proposer: "SolarCity Initiative",
       },
       {
         id: 5,
@@ -41,6 +45,7 @@ const Voting = () => {
         details: "Proposal to enhance bike lanes for safer travel.",
         votesFor: 0,
         votesAgainst: 0,
+        proposer: "CycleSafe Coalition",
       },
       {
         id: 6,
@@ -48,6 +53,7 @@ const Voting = () => {
         details: "Proposal to plant more trees in parks and streets.",
         votesFor: 0,
         votesAgainst: 0,
+        proposer: "TreeCity Foundation",
       },
     ];
     setProposals(sampleProposals);
@@ -78,6 +84,37 @@ const Voting = () => {
     );
   };
 
+  const renderProposal = (proposal) => (
+    <div
+      key={proposal.id}
+      className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
+    >
+      <div className="p-6">
+        <h2 className="text-white text-xl font-semibold mb-2">{proposal.title}</h2>
+        <p className="text-gray-400 text-sm mb-4">{proposal.details}</p>
+        <div className="flex justify-between items-center mb-4">
+          <span className="text-green-400 font-bold">Votes For: {proposal.votesFor}</span>
+          <span className="text-red-400 font-bold">Votes Against: {proposal.votesAgainst}</span>
+        </div>
+        <div className="flex justify-between items-center">
+          <button
+            onClick={() => handleVote(proposal.id, "for")}
+            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
+          >
+            👍 Vote For
+          </button>
+          <button
+            onClick={() => handleVote(proposal.id, "against")}
+            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
+          >
+            👎 Vote Against
+          </button>
+        </div>
+        <p className="text-gray-500 text-sm mt-4">Proposer: {proposal.proposer}</p>
+      </div>
+    </div>
+  );
+
   return (
     <div className="bg-gradient-to-b from-gray-900 to-gray-800 min-h-screen font-['Space_Grotesk']">
       <div className="relative w-full h-64 mb-8">
@@ -88,32 +125,9 @@ const Voting = () => {
       </div>
       
       <div className="container mx-auto py-12 px-4 lg:px-0">
+        <h2 className="text-white text-2xl font-semibold mb-4">Active Proposals</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {proposals.map((proposal) => (
-            <div
-              key={proposal.id}
-              className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
-            >
-              <div className="p-6">
-                <h2 className="text-white text-xl font-semibold mb-2">{proposal.title}</h2>
-                <p className="text-gray-400 text-sm mb-4">{proposal.details}</p>
-                <div className="flex justify-between items-center">
-                  <button
-                    onClick={() => handleVote(proposal.id, "for")}
-                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
-                  >
-                    👍 Yes ({proposal.votesFor})
-                  </button>
-                  <button
-                    onClick={() => handleVote(proposal.id, "against")}
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
-                  >
-                    👎 No ({proposal.votesAgainst})
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+          {proposals.map(renderProposal)}
         </div>
       </div>
     </div>

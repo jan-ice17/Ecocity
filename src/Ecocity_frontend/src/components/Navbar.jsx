@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { close, logo, menu } from "../assets";
 import { navLinks } from "../constants";
 
-const Navbar = () => {
-  const [active, setActive] = useState("Home");
+const Navbar = ({ activePage }) => {
   const [toggle, setToggle] = useState(false);
+
+  const handleClick = () => {
+    setToggle(false);
+  };
 
   return (
     <nav className="w-full flex py-6 justify-between items-center navbar">
@@ -15,11 +18,10 @@ const Navbar = () => {
           <li
             key={nav.id}
             className={`font-poppins font-normal cursor-pointer text-[16px] ${
-              active === nav.title ? "text-white" : "text-dimWhite"
+              activePage === nav.id ? "text-white" : "text-dimWhite"
             } ${index === navLinks.length - 1 ? "mr-0" : "mr-10"}`}
-            onClick={() => setActive(nav.title)}
           >
-            <a href={`#${nav.id}`}>{nav.title}</a>
+            <a href={`#${nav.id}`} onClick={handleClick}>{nav.title}</a>
           </li>
         ))}
       </ul>
@@ -42,11 +44,10 @@ const Navbar = () => {
               <li
                 key={nav.id}
                 className={`font-poppins font-medium cursor-pointer text-[16px] ${
-                  active === nav.title ? "text-white" : "text-dimWhite"
+                  activePage === nav.id ? "text-white" : "text-dimWhite"
                 } ${index === navLinks.length - 1 ? "mb-0" : "mb-4"}`}
-                onClick={() => setActive(nav.title)}
               >
-                <a href={`#${nav.id}`}>{nav.title}</a>
+                <a href={`#${nav.id}`} onClick={handleClick}>{nav.title}</a>
               </li>
             ))}
           </ul>

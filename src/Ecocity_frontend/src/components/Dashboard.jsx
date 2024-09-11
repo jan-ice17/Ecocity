@@ -89,6 +89,11 @@ const Dashboard = () => {
   const [cart, setCart] = useState([]);
   const [bids, setBids] = useState({});
   const [showCart, setShowCart] = useState(false);
+  const [userTokens, setUserTokens] = useState({
+    total: 1000,
+    claimable: 50,
+    fromProposals: 150,
+  });
 
   useEffect(() => {
     const link = document.createElement("link");
@@ -113,6 +118,14 @@ const Dashboard = () => {
 
   const icpToUsd = (icp) => {
     return (icp * 25).toFixed(2);
+  };
+
+  const claimTokens = () => {
+    setUserTokens(prevTokens => ({
+      ...prevTokens,
+      total: prevTokens.total + prevTokens.claimable,
+      claimable: 0,
+    }));
   };
 
   const renderProduct = (product) => (
@@ -187,6 +200,32 @@ const Dashboard = () => {
         <h2 className="text-white text-2xl font-semibold mb-4">Recyclable Materials</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
           {recyclables.map(renderRecyclable)}
+        </div>
+
+        <h2 className="text-white text-2xl font-semibold mb-4">Your Tokens</h2>
+        <div className="bg-gray-800 rounded-lg overflow-hidden shadow-lg p-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="text-center">
+              <h3 className="text-white text-lg font-semibold mb-2">Total Tokens</h3>
+              <p className="text-green-400 text-2xl font-bold">{userTokens.total}</p>
+            </div>
+            <div className="text-center">
+              <h3 className="text-white text-lg font-semibold mb-2">Claimable Tokens</h3>
+              <p className="text-blue-400 text-2xl font-bold">{userTokens.claimable}</p>
+              {userTokens.claimable > 0 && (
+                <button
+                  onClick={claimTokens}
+                  className="mt-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-full transition-colors duration-300"
+                >
+                  Claim Tokens
+                </button>
+              )}
+            </div>
+            <div className="text-center">
+              <h3 className="text-white text-lg font-semibold mb-2">Tokens from Proposals</h3>
+              <p className="text-purple-400 text-2xl font-bold">{userTokens.fromProposals}</p>
+            </div>
+          </div>
         </div>
 
         {showCart && (
