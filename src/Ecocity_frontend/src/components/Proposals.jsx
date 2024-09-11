@@ -56,7 +56,13 @@ const Proposals = () => {
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
-    setNewProposal({ ...newProposal, image: file });
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewProposal({ ...newProposal, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleSubmit = (e) => {
@@ -67,7 +73,6 @@ const Proposals = () => {
       id: Date.now().toString(36) + Math.random().toString(36).substr(2, 5),
       date: submissionDate.toLocaleDateString(),
       time: submissionDate.toLocaleTimeString(),
-      imageUrl: newProposal.image ? URL.createObjectURL(newProposal.image) : null,
       category: newProposal.category === "Other" ? newProposal.customCategory : newProposal.category,
       country: newProposal.country === "Other" ? newProposal.customCountry : newProposal.country,
     };
@@ -210,8 +215,8 @@ const Proposals = () => {
               key={proposal.id}
               className="bg-gray-800 rounded-lg overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105"
             >
-              {proposal.imageUrl && (
-                <img src={proposal.imageUrl} alt={proposal.title} className="w-full h-48 object-cover" />
+              {proposal.image && (
+                <img src={proposal.image} alt={proposal.title} className="w-full h-48 object-cover" />
               )}
               <div className="p-6">
                 <h2 className="text-white text-xl font-semibold mb-2">{proposal.title}</h2>
