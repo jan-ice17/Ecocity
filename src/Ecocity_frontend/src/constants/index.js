@@ -1,4 +1,4 @@
-import { people01, people02, people03, facebook, instagram, linkedin, twitter, airbnb, binance, coinbase, dropbox, send, shield, star  } from "../assets";
+import { people01, people02, people03, people04, facebook, instagram, linkedin, twitter, airbnb, binance, coinbase, dropbox, send, shield, star  } from "../assets";
 
 export const navLinks = [
   { id: "home", title: "Home" },
@@ -38,7 +38,7 @@ export const feedback = [
     content:
       "Ecocity is revolutionizing urban planning. Our platform empowers communities to shape their environment sustainably.",
     name: "Janice M.",
-    title: "Co-founder & Sustainability Expert",
+    title: "Co-founder & Chief Technology Officer",
     img: people01,
   },
   {
@@ -46,7 +46,7 @@ export const feedback = [
     content:
       "We're bridging the gap between citizens and city planners. Ecocity makes urban development truly collaborative.",
     name: "Prisha Patel",
-    title: "Chief Technology Officer",
+    title: "Sustainability Expert & Marketing  Manager ",
     img: people02,
   },
   {
@@ -62,8 +62,8 @@ export const feedback = [
     content:
       "Ecocity is more than a platform; it's a movement towards sustainable, inclusive, and innovative urban living.",
     name: "Judith K.",
-    title: "Environmental Policy Advisor",
-    img: people03,
+    title: "Co-Founder, Chief Executive Officer && lead Software Dev",
+    img: people04,
   },
 ];
 
