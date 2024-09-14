@@ -2,7 +2,11 @@
   "canisters": {
     "Ecocity_backend": {
       "main": "src/Ecocity_backend/main.mo",
+      "type": "motoko",
+      "token": {
+      "main": "src/Ecocity_backend/main.mo",
       "type": "motoko"
+    }
     },
     "Ecocity_frontend": {
       "dependencies": [
@@ -18,9 +22,10 @@
   "defaults": {
     "build": {
       "args": "",
-      "packtool": ""
+      "packtool": "mops sources"
     }
   },
   "output_env_file": ".env",
   "version": 1
 }
+
